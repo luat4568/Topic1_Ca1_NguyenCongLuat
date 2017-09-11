@@ -1,0 +1,39 @@
+﻿/*
+package chatroom;
+import java.net.Socket;
+import java.io.*; 
+
+ */ public class ThreadSocket extends Thread{
+    Socket socket= null;
+    public ThreadSocket(Socket socket)
+    {
+        this.socket=socket;
+    }
+    public void run()
+    {
+        try {
+            DataOutputStream sendToClient= new DataOutputStream(socket.getOutputStream());// Tạo output stream
+            BufferedReader fromClient= new BufferedReader(new InputStreamReader(socket.getInputStream()));//Tạo input stream
+            while (true)
+            {
+                String sentence=fromClient.readLine();// Chuỗi nhận được từ client
+                System.out.println("FROM CLIENT: " + sentence);
+                if (sentence.equalsIgnoreCase("quit"))
+                    break;
+                String reverseSentence= reverse(sentence);
+                //Thread.sleep(10000); // 
+                sendToClient.writeBytes(reverseSentence+'\n');
+            }
+              
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public String reverse(String input) throws InterruptedException
+    {
+        String output="";
+        StringBuilder strBuilder= new StringBuilder(input);
+        output=strBuilder.reverse().toString();
+        return output;
+    }
+}  

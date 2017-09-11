@@ -1,0 +1,24 @@
+﻿/*
+ package chatroom; 
+import java.io.*; 
+import java.net.*; 
+ */
+ public class Server {
+    public static void main(String args[])
+    {
+         try {
+            ServerSocket ss = new ServerSocket(111);// Tạo cổng 111 để kết nối sever
+            while (true)// Cho client kết nối
+            {              
+                new ThreadSocket(ss.accept()).start();
+	
+                // Khi có client kết nối thì sẽ tạo ra 1 thread cho client đó.
+            }
+        } catch (IOException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+         //catch (InterruptedException ie)
+        {
+        }
+    }
+}  

@@ -1,0 +1,32 @@
+﻿
+ */package chatroom; 
+import java.io.*;
+import java.net.Socket; 
+ */
+ */ public class Client {
+    public static void main(String args[])
+    {
+        try {
+            String cau1;// Câu được gửi tới sever
+            String ketQua;//Câu được sever xử lý và trả lại.
+          
+            BufferedReader inFormUser= new BufferedReader(new InputStreamReader(System.in));// Tạo input stream
+            Socket clientSocket= new Socket("127.0.0.1",111);// Tạo client socket để kết nối tới sever
+            DataOutputStream sendToServer= new DataOutputStream(clientSocket.getOutputStream());// Tạo output stream kết nối tới socket
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            while(true)
+            {
+                cau1 = inFormUser.readLine();// Nhập vào 1 câu
+                sendToServer.writeBytes(cau1+'\n');// Gửi tới sever
+                if (cau1.equalsIgnoreCase("quit"))// Gập chuỗi quit
+                    break;
+                ketQua = inFromServer.readLine();// Nhận lại từ sever
+                System.out.println("FROM SERVER: "+ketQua);
+            }
+            clientSocket.close();// Đóng kết nối
+        } catch (IOException e) {
+            System.out.println("Exception Client: "+e.getMessage());
+        }
+    }
+}  
